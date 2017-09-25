@@ -1,5 +1,8 @@
  {
-    "companyname": "",
+    "companyname": "acme products",
+    "companyaddress": "jam street",
+    "companyemail": "email@acme.com",
+    "companywebsite": "www.acme.net",
     "thankyoumessage": "Thanks for your purchase",
     "norefund": ""
  }
