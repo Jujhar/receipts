@@ -1,9 +1,9 @@
 /*
 * R E C I E P T S
 * = = = = = = = =
-* Alpha 0.2
+* Alpha 0.3
 * written by Singh
-* september 24 2017
+* October 2017
 *
 *
 */
@@ -13,6 +13,7 @@ var fs = require('fs');
 var preset_dat = require('./presets.json');
 var data = [];
 var output = 0;
+var customerName = '';
 
 console.log('');
 console.log("Welcome");
@@ -20,13 +21,36 @@ console.log('-------');
 console.log('#$!');
 console.log('-------');
 
+if (preset_dat.savetohistory == 1){
+    console.log('');
+    console.log('Please enter customers name');
+    console.log('');
+
+    prompt.start();
+    prompt.get(['customername'], function (err, result) {
+        if (result.customername != ''){
+            customerName = result.customername;
+
+            console.log('');
+            console.log('Thanks');
+            console.log('');
+
+            chooseOutput();
+        }
+
+        else {
+            chooseOutput();
+        }
+    });
+}
+
+function chooseOutput(){
 console.log('');
 console.log('Please enter output method');
 console.log('0 - For Console');
 console.log('1 - For .txt file');
 console.log('');
 
-prompt.start();
 prompt.get(['output'], function (err, result) {
     if (result.output == '1'){
         output = 1;
@@ -37,6 +61,7 @@ prompt.get(['output'], function (err, result) {
         System();
     }
 });
+}
 
 function System() {
     console.log('')
@@ -73,6 +98,19 @@ function newItem() {
     });
 }
 
+// Append to history
+function addtohistory(total){
+    if (preset_dat.savetohistory == 1){
+        total = "\r\n" + customerName
+            + " - " + total;
+        fs.appendFile("./output/history.txt", total, function(err) {
+            if(err) {
+                return console.log(err);
+            }
+        });
+    }
+}
+
 function done() {
     var total = 0;
 
@@ -104,6 +142,10 @@ function done() {
             // Display total
             console.log("File saved." + '(total $' + total + ')');
         });
+
+        if (preset_dat.savetohistory == 1) {
+            addtohistory(total);
+        }
     }
 
     else {
@@ -121,6 +163,11 @@ function done() {
 
         // Display total
         console.log('total' + "\t\t" + '$' + total)
+
+        // Save to history
+        if (preset_dat.savetohistory == 1) {
+            addtohistory(total);
+        }
 
     }
 

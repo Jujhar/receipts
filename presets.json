@@ -1,4 +1,5 @@
  {
+    "savetohistory":1,
     "companyname": "acme products",
     "companyaddress": "jam street",
     "companyemail": "email@acme.com",
@@ -6,3 +7,4 @@
     "thankyoumessage": "Thanks for your purchase",
     "norefund": ""
  }
+
